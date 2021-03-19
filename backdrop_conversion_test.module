@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * @file
+ * Provides default hooks and functions.
+ */
+
+namespace APILib\Objects;
+
+// Load helper files.
+use APILib\Objects\Object;
+
+// #####################################################################################################################
+// # Admin Hooks
+// #####################################################################################################################
+
+/**
+ * Implements hook_init().
+ */
+function backdrop_conversion_test_init() {
+  $form = [];
+
+  // Test #1
+  // Create a description to post to the top of the settings form
+  // Add submit button
+  $form['submit'] = [
+    '#type' => 'submit',
+    '#value' => t('Save configuration'),
+    '#submit' => ['online_admin_static_paths_form_submit'],
+  ];
+
+  // Test #2
+  // Add validation
+  $form['#validate'] = ['online_admin_static_paths_form_validate'];
+
+  // Test #3
+  $arrTestOne = [
+    '#type' => 'textfield',
+    '#attached' => [
+      'library' => [['online_admin', 'jquery.timepicker']],
+      'js' => [
+        drupal_get_path('module', 'online_admin') . "/js/timefield.js",
+        [
+          'data' => ['timefield' => $js_settings],
+          'type' => 'setting',
+        ],
+      ],
+    ],
+  ];
+
+  // Test #4
+  $arrTestTwo = array(
+    '#type' => 'textfield',
+    '#attached' => array(
+      'library' => array(array('online_admin', 'jquery.timepicker')),
+      'js' => array(
+        drupal_get_path('module', 'online_admin') . "/js/timefield.js",
+        array(
+          'data' => array('timefield' => $js_settings),
+          'type' => 'setting',
+        ),
+      ),
+    ),
+  );
+
+  // Test #5
+  // If empty, set to null.
+  if (strlen($value) == 0) {
+    form_set_value($element, ['value' => NULL], $formState);
+
+    return;
+  }
+
+  // Test #6
+  $a = ($b) ?[] : '';
+
+  // Test #7
+  $a = ($b) ? [] : '';
+
+  return $form;
+}
+
+// Test #8
+/**
+ * Callback for the following form_alter functions:
+ * - online_admin_form_rules_ui_add_element_alter().
+ * - online_admin_form_rules_ui_edit_element_alter().
+ *
+ * @param array|null $form
+ * @param array|null $formState
+ * @param string|null $formId
+ */
+function online_admin_form_rules_ui_add_edit_element_callback(?array &$form, ?array &$formState, ?string $formId) {
+  $form['#process'][] = 'online_admin_formRulesUiAddEditElementProcess';
+}
+
+// Test 9
+/**
+ * Callback for the drush cache-empty command.
+ */
+function online_admin_drush_cache_empty() {
+  // Check connection to database.
+  if ($conn->connect_error) {
+    drush_log(dt("Could not connect to the database '" . $db_spec['database'] . "'"), Drush\Log\LogLevel::ERROR);
+
+    return;
+  }
+}

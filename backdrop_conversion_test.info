@@ -1,0 +1,6 @@
+name = Test
+description = Test module for Backdrop CMS conversion.
+backdrop = 1.x
+php = 7.4
+type = module
+version = 7.x-1.0
